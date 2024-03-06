@@ -10,7 +10,7 @@ ZONEID=your_zoneid
 RECORDID=your_recordid
 
 ## Get the current public IP address
-IP=$(curl -s https://cloudflare.com/cdn-cgi/trace | grep -E '^ip' | cut -d = -f 2)
+IP=$(curl -s https://api.ipify.org)
 
 ## Get the current IP address on Cloudflare
 CF_IP=$(curl -s https://api.cloudflare.com/client/v4/zones/$ZONEID/dns_records/$RECORDID \
@@ -19,6 +19,9 @@ CF_IP=$(curl -s https://api.cloudflare.com/client/v4/zones/$ZONEID/dns_records/$
   -H "Content-Type: application/json" \
   | jq '.result.content' \
   | tr -d \")
+
+echo $IP
+echo $CF_IP
 
 ## Update the IP address on Cloudflare if it has changed
 if [ "$IP" != "$CF_IP" ]; then
