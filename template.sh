@@ -20,9 +20,6 @@ CF_IP=$(curl -s https://api.cloudflare.com/client/v4/zones/$ZONEID/dns_records/$
   | jq '.result.content' \
   | tr -d \")
 
-echo $IP
-echo $CF_IP
-
 ## Update the IP address on Cloudflare if it has changed
 if [ "$IP" != "$CF_IP" ]; then
   curl -s https://api.cloudflare.com/client/v4/zones/$ZONEID/dns_records/$RECORDID \
